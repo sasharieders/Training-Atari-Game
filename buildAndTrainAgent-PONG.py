@@ -92,10 +92,8 @@ tf_env.action_spec())
 init_driver = DynamicStepDriver(
     tf_env,
     initial_collect_policy,
-    #changed from ShowProgres(20000)
     observers=[replay_buffer.add_batch, ShowProgress(20000)],
-    #num_steps=20000
-    num_steps=20000) # <=> 80,000 ALE frames
+    num_steps=20000)
 final_time_step, final_policy_state = init_driver.run()
 dataset = replay_buffer.as_dataset(
     sample_batch_size=64,
@@ -129,15 +127,11 @@ def train_agent(n_iterations, checkpoint_interval, checkpoint_dir):
 
     return trajectories_list
 
-# Set up the necessary variables and objects (agent, tf_env, dataset, etc.)
-
-# Specify the number of iterations and the checkpoint interval
 n_iterations = 1000000
 checkpoint_interval = 10000
 
-# Create a directory to store checkpoints
+
 checkpoint_dir = "/home/jupyter/PONG/checkpoint"
 os.makedirs(checkpoint_dir, exist_ok=True)
 
-# Train the agent and save checkpoints
 trajectories = train_agent(n_iterations, checkpoint_interval, checkpoint_dir)
